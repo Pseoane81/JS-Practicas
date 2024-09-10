@@ -67,6 +67,37 @@ function modificarTarea(indice, nuevoNombre, nuevaFechaLimite = null, nuevoNumer
     }
 }
 
+// funcion que filtra tareas por categorias
+
+function filtrarTareasCategorias(numeroCategoria) {
+    let tareasFiltradas = tareas.filter(function(tarea){
+        return tareas.categoria === numeroCategoria
+    })
+    return tareasFiltradas
+}
+
+function tareasCompletadas(numeroCategoria){
+    let tareasCategorias = filtrarTareasCategorias(numeroCategoria)
+    let tareasFiltradasTrue = tareasCategorias.reduce(function(contador, tarea){
+        return tarea.completada ? contador + 1 : contador;
+    }, 0);
+
+    let tareasTotal = tareasCategorias.length
+
+    console.log("Tareas de completadas de la categoria "+ numeroCategoria+": "+tareasFiltradasTrue+" de "+tareasTotal+"Tareas!")
+
+}
+
+function tareasNoCompletadas(){
+    console.log("Tareas NO completadas")
+    tareas.forEach(function(tarea){
+        if(!tarea.completada){
+            console.log("-Nombre " + tarea.nombre + ", Categoria: " + categoriasNombres[tarea.categoria])
+        }
+     })
+}
+
+
 function mostrarMenu(){
     console.log("--------Menu-------")
     console.log("1 - Agregar Tarea")
@@ -76,6 +107,9 @@ function mostrarMenu(){
     console.log("5 - Mostrar las Tareas")
     console.log("6 - Ver todas las categorias")
     console.log("7 - Agregar categria")
+    console.log("8 - Filtrar tareas por Categorias")
+    console.log("9 - Ver tareas compeltadas por categoria")
+    console.log("9 - Ver tareas NO compeltadas por categoria")
     console.log("0 - SALIR")
 
 }
@@ -154,6 +188,25 @@ function interactuarConUsuario (){
                 let nuevaCategoria = prompt("Ingrese el nombre de la nueva Categoria: ")
                 agregarCategoriaUsuario(nuevaCategoria)
                 break;
+
+            case 8:
+                mostrarCategorias()
+                let numeroCategoria = parseInt(prompt("Ingrese el numero de la categoria: "))
+                let tareasFiltradasCategoria = filtrarTareasCategorias(numeroCategoria)
+                console.log("Tareas de la categoria seleccionada")
+                console.log(tareasFiltradasCategoria)
+                break;
+
+            case 9:
+                mostrarCategorias()
+                let nuroCategoria = parseInt(prompt("Ingrese el numero de la categoria a visualizar: "))
+                tareasCompletadas(nuroCategoria)
+                break;
+
+            case 10:
+                tareasNoCompletadas()
+                break;
+
 
             default:
                 console.log("Opcion Invalida")
